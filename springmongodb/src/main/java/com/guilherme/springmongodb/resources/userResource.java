@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.guilherme.springmongodb.domain.User;
 import com.guilherme.springmongodb.services.UserService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
