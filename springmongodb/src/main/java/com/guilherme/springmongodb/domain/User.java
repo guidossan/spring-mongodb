@@ -2,8 +2,14 @@ package com.guilherme.springmongodb.domain;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+//sem o collection ele usa a classe em minúsculo para definir
+@Document(collection = "user")
+public class User implements Serializable{
+    
+    @Id
     private String id;
     private String name;
     private String email;
@@ -35,7 +41,7 @@ public class User implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;
