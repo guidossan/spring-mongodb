@@ -3,10 +3,12 @@ package com.guilherme.springmongodb.resources;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guilherme.springmongodb.domain.User;
+import com.guilherme.springmongodb.dto.UserDto;
 import com.guilherme.springmongodb.services.UserService;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,10 @@ public class userResource {
     private UserService service;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDto>> findAll(){
         List<User> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+        List<UserDto> listDto = list.stream().map(x -> new UserDto(x)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 
     
