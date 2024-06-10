@@ -1,8 +1,11 @@
 package com.guilherme.springmongodb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //sem o collection ele usa a classe em minúsculo para definir
@@ -13,9 +16,12 @@ public class User implements Serializable{
     private String id;
     private String name;
     private String email;
+    //só carrega se acessar
+    @DBRef(lazy = true)
+    private List<Post> post = new ArrayList<>();
 
     public User(){
-
+        
     }
     public User(String id, String name, String email) {
         this.id = id;
@@ -23,6 +29,12 @@ public class User implements Serializable{
         this.email = email;
     }
 
+    public List<Post> getPost() {
+        return post;
+    }
+    public void setPost(List<Post> post) {
+        this.post = post;
+    }
     public String getId() {
         return id;
     }
