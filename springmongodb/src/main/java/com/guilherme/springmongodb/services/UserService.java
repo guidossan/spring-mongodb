@@ -32,6 +32,25 @@ public class UserService {
         findById(id);
         repo.deleteById(id);
     }
+    public User update(User obj){
+        String id = obj.getId();
+        if (id == null) {
+            throw new IllegalArgumentException("ID must not be null");
+        }
+
+        return repo.findById(id)
+                   .map(existingUser -> {
+                       updateData(existingUser, obj);
+                       return repo.save(existingUser);
+                   })
+                   .orElseThrow(() -> new RuntimeException("Objeto não encontrado"));
+    }
+    private void updateData(User newobj, User obj) {
+        newobj.setName(obj.getName());
+        newobj.setEmail(obj.getEmail());
+
+    }
+
     public User fromDTO(UserDto obj){
         return new User(obj.getId(), obj.getName(), obj.getEmail());
     }
