@@ -7,6 +7,7 @@ import com.guilherme.springmongodb.domain.Post;
 import com.guilherme.springmongodb.resources.Util.URL;
 import com.guilherme.springmongodb.services.PostService;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,18 @@ public class postResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @RequestMapping(value = "/fullsearch", method = RequestMethod.GET)
+    public ResponseEntity<List<Post>> fullsearch(@RequestParam(value = "text", defaultValue = "") String text, 
+                                                @RequestParam(value = "minDate", defaultValue = "") String minDate,
+                                                @RequestParam(value = "maxDate", defaultValue = "") String maxDate){
+
+
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+        List<Post> list = service.fullsearch(text, min, max);
+    
+        
+        return ResponseEntity.ok().body(list);
+    }
 }

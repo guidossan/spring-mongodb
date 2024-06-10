@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.guilherme.springmongodb.domain.Post;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,4 +18,7 @@ public interface PostRepository extends MongoRepository<Post, String>{
     //alternativa 
     @Query("{ 'title': { $regex: ?0, $options: 'i' } }")
     List<Post> findByTitle(String text);
+    
+    @Query("{ $and: [ { date: { $gte: ?1 } }, { field: { $lte: ?2 } }  , { $or: [ { 'title': { $regex: ?0, $options: 'i' } }, { 'body': { $regex: ?0, $options: 'i' } } , { 'comments.text': { $regex: ?0, $options: 'i' } } ] } ] }")
+    List<Post> fullsearch(String text, Date minDate, Date maxDate);
 }
